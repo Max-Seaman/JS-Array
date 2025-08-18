@@ -7,30 +7,52 @@ body {
     margin: 0;
     padding: 0;
     position: relative;
-    background: #f0e4cc;
+    background: $primary__color;
+    text-align: center;
 
 }
 
-button:hover {
-    background: #f75931;
+main {
+    position: relative;
 }
-
-a,
-button,
-select {
-    text-decoration: none;
-    color: #4d4d4d;
-}
-
 
 select {
-    border: 1px solid #666;
-    background: white;
+    background: $primary__color--dark;
+    color: $primary__color;
+    border: none;
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    width: 260px;
+
+    @include mq(md) {
+        width: 350px;
+    }
+
+    &:focus-visible {
+        outline: none;
+    }
 }
 
-
-button,
-select,
 input {
-    font-size: 1.2em;
+    padding: 10px;
+    border: none;
+    background: $primary__color--dark;
+    color: $primary__color;
+    border-radius: 8px 0 0 8px;
+    width: 100%;
+
+    &:focus-visible {
+        outline: none;
+    }
+}
+
+button, select, input {
+    font-size: 1rem;
+    margin: 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
 }

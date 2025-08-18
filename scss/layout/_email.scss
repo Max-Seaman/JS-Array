@@ -1,0 +1,16 @@
+.add {
+    padding: 20px 0;
+}
+
+.select {
+    padding-bottom: 30px;
+}
+
+.input-email {
+    display: flex;
+    width: 260px;
+
+    @include mq(md) {
+        width: 350px;
+    }
+}

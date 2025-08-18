@@ -15,39 +15,48 @@
 
     <main>
         <div class="container">
-            <div class="title">
-                <h2></h2>
-            </div>
+            <div class="container main-content">
+                <div class="container-image">
+                    <div class="loader"></div>
 
-            <div class="container-image">
-                <div class="loader"></div>
-
-            </div>
-
-            <div class="address">
-                <div class="add">
-                    <input type="email" id="email">
-                    <button type="button" onclick="addEmail()">+</button>
                 </div>
+
+                <div class="address">
+                    <div class="container add">
+                        <label for="email">Add a New Email Address:</label>
+                        <div class="input-email">
+                            <input type="email" id="email">
+                            <button type="button" onclick="addEmail()">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="container select">
+                        <label for="selected">Select an Email Address:</label>
+                        <select class="selected">
+                            <option value="none">N/A</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button id="new-image" onclick="loadRandomImage()">Generate New Image</button>
+                    <button id="collection-add" onclick="addToCollection()">Add to Collection</button>
+                </div>
+
+                <div class="messages-container"></div>
             </div>
 
-            <div class="buttons">
-                <button id="new-image" onclick="loadRandomImage()">Generate New Image</button>
-                <button id="collection-add" onclick="addToCollection()">Add to Collection</button>
-            </div>
-
-            <div class="collections">
-                <label for="selected">Select an Email Address:</label>
+            <div class="container main-content main-content-2">
+                <label for="selected">Select a Collection:</label>
                 <div class="select">
                     <select class="selected">
                         <option value="none">N/A</option>
                     </select>
                 </div>
+                <div class="collections"></div>
             </div>
-
         </div>
     </main>
-
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="javascript/main.js"></script>
 </body>

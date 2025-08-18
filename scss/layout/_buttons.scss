@@ -1,0 +1,23 @@
+button {
+    background-color: $primary__color--red;
+    color: $primary__color--light;
+    border: none;
+    padding: 5px 10.5px;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+
+    &:hover {
+        background: #f75931;
+    }
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    padding: 0 20px;
+
+    button {
+        padding: 20px;
+        border-radius: 8px;
+    }
+}

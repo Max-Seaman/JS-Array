@@ -1,0 +1,59 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    &-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 160px;
+        width: 240px;
+        
+
+        @include mq(xs) {
+            height: 200px;
+            width: 300px;
+        }   
+
+        @include mq(md) {
+            height: 300px;
+            width: 450px;
+        }
+
+        @include mq(lg) {
+            height: 400px;
+            width: 600px;
+        }
+        
+        @include mq(xxl) {
+            height: 600px;
+            width: 900px;
+        }
+    }
+}
+
+.main-content {
+    @extend %lighter-container;
+    padding: 40px;
+    width: 95%;
+    margin-top: 40px;
+
+    @include mq(sm) {
+        width: 80%;
+        margin-top: 80px;
+    }
+
+    &-2 {
+        margin-bottom: 40px;
+
+        @include mq(sm) {
+            margin-bottom: 80px;
+        }
+
+        .select {
+            padding-bottom: 20px;
+        }
+    }
+}

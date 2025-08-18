@@ -1,0 +1,32 @@
+.collections {
+    width: 100%;
+}
+
+.collection-group {
+    @include flex(null, center, center);
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
+}
+
+.image-wrapper {
+    position: relative;
+}
+
+.delete-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: $primary__color--darkred;
+    color: $primary__color;
+    font-size: 14px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none; /* hidden by default */
+    z-index: 3;
+}
+
+.image-wrapper:hover .delete-btn {
+    display: block; /* show only on hover */
+}
