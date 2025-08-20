@@ -19,6 +19,7 @@
 
     @include mq(md) {
         width: 300px;
+        font-size: 1.25rem;
     }
 
     @include mq(xxl) {

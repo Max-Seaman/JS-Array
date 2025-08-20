@@ -1,48 +1,40 @@
 .container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+    @include flex(column, center, center);
 
     &-image {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 160px;
-        width: 240px;
-        
+        @include flex(null, center, center);
+        @include size(240px, 160px);
 
         @include mq(xs) {
-            height: 200px;
-            width: 300px;
+            @include size(300px, 200px);
         }   
 
         @include mq(md) {
-            height: 300px;
-            width: 450px;
+            @include size(450px, 300px);
         }
 
         @include mq(lg) {
-            height: 400px;
-            width: 600px;
+            @include size(600px, 400px);
         }
         
         @include mq(xxl) {
-            height: 600px;
-            width: 900px;
+            @include size(900px, 600px);
         }
     }
 }
 
 .main-content {
     @extend %lighter-container;
-    padding: 40px;
+    @include spacing(40px, 40px 0 0);
     width: 95%;
-    margin-top: 40px;
 
     @include mq(sm) {
         width: 80%;
         margin-top: 80px;
+    }
+
+    @include mq(xxxl) {
+        width: 1600px;
     }
 
     &-2 {

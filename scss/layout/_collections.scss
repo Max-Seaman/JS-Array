@@ -1,16 +1,33 @@
 .collections {
     width: 100%;
+    padding-bottom: 20px;
 }
 
 .collection-group {
     @include flex(null, center, center);
     flex-wrap: wrap;
+    flex-basis: 30%;
     width: 100%;
     gap: 10px;
-}
 
-.image-wrapper {
-    position: relative;
+    .image-wrapper {
+        position: relative;
+
+        @include mq(md) {
+            flex: 1 1 calc((100% - 10px) / 2);
+            max-width: calc((100% - 10px) / 2);
+        }
+
+        @include mq(xl) {
+            flex: 1 1 calc((100% - 20px) / 3);
+            max-width: calc((100% - 20px) / 3);
+        }
+
+        img {
+            width: 100%;
+            border-radius: 8px;
+        }
+    }
 }
 
 .delete-btn {
@@ -19,8 +36,8 @@
     right: 5px;
     background: $primary__color--darkred;
     color: $primary__color;
-    font-size: 14px;
-    padding: 2px 6px;
+    @include size(30px, 30px);
+    font-size: 1.5rem;
     border-radius: 50%;
     cursor: pointer;
     display: none; /* hidden by default */

@@ -21,7 +21,7 @@ select {
     color: $primary__color;
     border: none;
     margin-top: 10px;
-    padding: 10px;
+    padding: 15px 8px;
     border-radius: 8px;
     width: 260px;
 
@@ -35,7 +35,7 @@ select {
 }
 
 input {
-    padding: 10px;
+    padding: 15px 11.5px;
     border: none;
     background: $primary__color--dark;
     color: $primary__color;
@@ -45,14 +45,26 @@ input {
     &:focus-visible {
         outline: none;
     }
+
+    &::placeholder {
+        color: $primary__color;
+    }
 }
 
 button, select, input {
     font-size: 1rem;
     margin: 0;
+
+    @include mq(md) {
+        font-size: 1.25rem;
+    }
 }
 
 label {
     display: block;
     margin-bottom: 10px;
+    
+    @include mq(md) {
+        font-size: 1.25rem;
+    }
 }

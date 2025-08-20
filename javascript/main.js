@@ -1,24 +1,35 @@
 
-function loadRandomImage() {
+async function loadRandomImage() {
     $(".loader").show(); // show loader
     $(".container-image img").remove(); // remove old image
 
-    let randomSeed = Math.floor(Math.random() * 1000000);
-    let imageURL = `https://picsum.photos/seed/${randomSeed}/600/400`;
+    let random = Math.floor(Math.random() * 1000000);
+    let imageURL = `https://picsum.photos/seed/${random}/600/400`;
 
-    let img = new Image();
-    img.src = imageURL;
-    img.alt = "Random Image";
-    img.onload = function () {
-        $(".loader").hide(); // hide loader
-        $(".container-image").append(img); // show image
-    };
+    try {
+    // Wait until the image is loaded
+    await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.src = imageURL;
+        img.alt = "Random Image";
+
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+    }).then(img => {
+        $(".container-image").append(img);
+    });
+    } catch (error) {
+        console.error("Image failed to load: - main.js:22", error);
+        showMessage("error", "Failed to load random image. Please refresh and try again.");
+    } finally {
+        $(".loader").hide(); // always hide loader
+    }
 }
 
 function addEmail() {
     const emailInput = document.getElementById("email");
     const email = emailInput.value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const selects = document.querySelectorAll(".selected");
     console.log(selects)
 
@@ -44,13 +55,7 @@ function addEmail() {
         const newOption = document.createElement("option");
         newOption.value = email;
         newOption.textContent = email;
-        select.appendChild(newOption);
-
-        // Remove placeholder option if it exists
-        const placeholder = select.querySelector("option[value=none]")
-        if (placeholder) {
-            placeholder.remove();
-        }
+        select.append(newOption);
 
         // Make the new email the selected option
         select.value = email;
@@ -63,10 +68,35 @@ function addEmail() {
     emailInput.value = "";
 
     // Show success message
-    showMessage("success", "Email added");
+    showMessage("success", "Email Address added");
 }
 
 loadRandomImage();
+
+// Success and Error messages
+function showMessage(type, text) {
+    const container = document.querySelector(".messages-container");
+
+    // Create a new message
+    const message = document.createElement("div");
+    message.classList.add("message", type);
+    
+    const content = document.createElement("p");
+    content.textContent = text;
+    message.append(content);
+
+    // Add to container
+    container.append(message);
+
+    // Make sure to trigger CSS transition
+    setTimeout(() => message.classList.add("show"), 10);
+
+    // Auto-remove after 3s
+    setTimeout(() => {
+        message.classList.remove("show");
+        setTimeout(() => message.remove(), 300);
+    }, 3000);
+}
 
 function addToCollection() {
     const containerImage = document.querySelector(".container-image img"); 
@@ -91,7 +121,7 @@ function addToCollection() {
         collectionGroup = document.createElement("div");
         collectionGroup.id = selectedValue;
         collectionGroup.classList.add("collection-group");
-        collectionsDiv.appendChild(collectionGroup);
+        collectionsDiv.append(collectionGroup);
     }
 
     // Check for duplicates
@@ -133,6 +163,46 @@ function addToCollection() {
     showMessage("success", "Image added to the collection");
 }
 
+function deleteCollection() {
+    const collectionSelect = document.querySelector(".main-content-2 .select .selected");
+    const selectedValue = collectionSelect.value;
+
+    if (selectedValue === "none") {
+        showMessage("error", "No collection available to delete");
+        return;
+    }
+
+    // Remove the collection group
+    const collectionGroup = document.getElementById(selectedValue);
+    if (collectionGroup) {
+        collectionGroup.remove();
+    }
+
+    // Remove email option from all selects
+    const allSelects = document.querySelectorAll(".selected");
+    allSelects.forEach(select => {
+        const option = select.querySelector(`option[value="${selectedValue}"]`);
+        if (option) {
+            option.remove();
+        }
+
+        // Pick a new value if there are other options left, else fallback to "none"
+        const remainingOptions = select.querySelectorAll("option[value]:not([value='none'])");
+        if (remainingOptions.length > 0) {
+            select.value = remainingOptions[remainingOptions.length - 1].value;
+        } else {
+            select.value = "none";
+        }
+    });
+
+    collectionSelect.dispatchEvent(new Event("change"));
+
+    // Success message
+    showMessage("success", "Collection and email deleted successfully");
+}
+
+
+
 const collectionsSelect = document.querySelector(".main-content-2 .select .selected");
 
 collectionsSelect.addEventListener("change", (event) => {
@@ -149,28 +219,3 @@ collectionsSelect.addEventListener("change", (event) => {
         }
     });
 });
-
-// Success and Error messages
-function showMessage(type, text) {
-    const container = document.querySelector(".messages-container");
-
-    // Create a new message
-    const message = document.createElement("div");
-    message.classList.add("message", type);
-    
-    const content = document.createElement("p");
-    content.textContent = text;
-    message.append(content);
-
-    // Add to container
-    container.append(message);
-
-    // Make sure to trigger CSS transition
-    setTimeout(() => message.classList.add("show"), 10);
-
-    // Auto-remove after 3s
-    setTimeout(() => {
-        message.classList.remove("show");
-        setTimeout(() => message.remove(), 300);
-    }, 3000);
-}
