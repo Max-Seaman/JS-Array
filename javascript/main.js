@@ -1,28 +1,65 @@
+let loading = false;
+let nextImage = null;
 
-async function loadRandomImage() {
-    $(".loader").show(); // show loader
-    $(".container-image img").remove(); // remove old image
+function createImage() {
+    return new Promise((resolve, reject) => {
+        const random = Math.floor(Math.random() * 1000000);
+        const imageURL = `https://picsum.photos/seed/${random}/600/400`;
 
-    let random = Math.floor(Math.random() * 1000000);
-    let imageURL = `https://picsum.photos/seed/${random}/600/400`;
-
-    try {
-    // Wait until the image is loaded
-    await new Promise((resolve, reject) => {
         const img = new Image();
         img.src = imageURL;
         img.alt = "Random Image";
 
         img.onload = () => resolve(img);
-        img.onerror = reject;
-    }).then(img => {
-        $(".container-image").append(img);
+        img.onerror = () => reject(new Error("Failed to load image"));
     });
+}
+
+async function loadRandomImage() {
+    if (loading) {
+        return
+    }
+    
+    loading = true;
+    const btn = document.getElementById("new-image");
+    btn.disabled = true; // disable button
+    
+    $(".loader").show(); // show loader
+    $(".container-image img").remove(); // remove old image
+
+    try {
+        let img;
+
+        // Use preloaded image if available
+        if (nextImage) {
+            img = nextImage;
+            nextImage = null;
+        } else {
+            img = await createImage();
+        }
+
+        // Add image to page
+        $(".container-image").append(img);
+
+        // Start preloading the next image
+        preloadNextImage();
     } catch (error) {
-        console.error("Image failed to load: - main.js:22", error);
+        console.error("Image failed to load: - main.js:47", error);
         showMessage("error", "Failed to load random image. Please refresh and try again.");
     } finally {
         $(".loader").hide(); // always hide loader
+        btn.disabled = false;  // unlock button
+        loading = false;
+    }
+}
+
+async function preloadNextImage() {
+    try {
+        const img = await createImage();
+        nextImage = img;
+    } catch (error) {
+        console.warn("Preload failed: - main.js:61", error);
+        nextImage = null;
     }
 }
 
@@ -52,6 +89,7 @@ function addEmail() {
 
     // Create new option element
     for (let select of selects) {
+        select.disabled = false
         const newOption = document.createElement("option");
         newOption.value = email;
         newOption.textContent = email;
@@ -192,6 +230,7 @@ function deleteCollection() {
             select.value = remainingOptions[remainingOptions.length - 1].value;
         } else {
             select.value = "none";
+            select.disabled = true;
         }
     });
 

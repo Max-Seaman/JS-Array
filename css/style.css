@@ -39,6 +39,9 @@ select {
 select:focus-visible {
   outline: none;
 }
+select:empty {
+  display: none;
+}
 
 input {
   padding: 15px 11.5px;

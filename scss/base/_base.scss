@@ -32,6 +32,10 @@ select {
     &:focus-visible {
         outline: none;
     }
+
+    &:empty {
+        display: none;
+    }
 }
 
 input {
