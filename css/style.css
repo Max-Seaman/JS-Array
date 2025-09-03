@@ -218,10 +218,21 @@ button:hover {
   display: flex;
   gap: 20px;
   padding: 0 20px;
+  max-width: 370px;
 }
 .buttons button {
   padding: 20px;
   border-radius: 8px;
+  flex: 1;
+}
+@media (min-width: 768px) {
+  .buttons {
+    padding: 0;
+    max-width: none;
+  }
+  .buttons #new-image, .buttons #collection-add, .buttons button {
+    width: 236px;
+  }
 }
 
 .messages-container {
